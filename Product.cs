@@ -70,9 +70,31 @@ namespace Products
                 OnPropertyChanged("Image");
             }
         }
+
         public Nullable<int> ProductionPersonCount { get; set; }
-        public Nullable<int> ProductionWorkshopNumber { get; set; }
-        public decimal MinCostForAgent { get; set; }
+
+        public int productionWorkshopNumber;
+        public int ProductionWorkshopNumber
+        {
+            get { return productionWorkshopNumber; }
+            set
+            {
+                productionWorkshopNumber = value;
+                OnPropertyChanged("ProductionWorkshopNumber");
+            }
+        }
+
+        public decimal minCostForAgent;
+      
+        public decimal MinCostForAgent
+        {
+            get { return minCostForAgent; }
+            set
+            {
+                minCostForAgent = value;
+                OnPropertyChanged("MinCostForAgent");
+            }
+        }
     
         public virtual ProductType ProductType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

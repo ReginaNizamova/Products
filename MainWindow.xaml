@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Products"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="450" MinWidth="800" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="TextBox" x:Key="TextBox">
             <Setter Property="FontFamily" Value="Courier New"/>
@@ -59,7 +59,7 @@
         <Viewbox MaxHeight="60" MinHeight="30" Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <StackPanel Orientation="Horizontal" Height="45">
                 <Canvas Margin="0 0 150 0">
-                    <ComboBox  BorderThickness="2"  x:Name="sort" Style="{StaticResource ComboBox}" Width="190" Height="40" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <ComboBox  SelectionChanged="comboBoxSort" BorderThickness="2"  x:Name="sort" Style="{StaticResource ComboBox}" Width="190" Height="40" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <ComboBoxItem Content="↑ Наименование" FontSize="18"/>
                         <ComboBoxItem Content="↓ Наименование" FontSize="18"/>
                         <ComboBoxItem Content="↑ Номер производственного цеха" FontSize="18"/>
@@ -117,8 +117,9 @@
                     <StackPanel  Orientation="Horizontal">
                         <Image  Margin="0 0 15 0" Source="pack://application:,,,/Resource/picture.png" Width="60" Height="60"/>
                         <!--<Image Source="{Binding Image}"/>-->
-                        
-                        <TextBlock FontSize="20" FontFamily="Courier New">
+
+                        <StackPanel Width="400">
+                                 <TextBlock FontSize="20" FontFamily="Courier New">
                             <Run Text="{Binding Title}"/>
                             <Run Text="|"/>
                             <Run Text="{Binding ProductTypeTitle}"/>
@@ -126,15 +127,15 @@
                             <Run Text="{Binding ArticleNumber}"/>
                             <LineBreak/>
                             <Run Text="Материалы:"/>
-                            <Run Text="{Binding TitleMaterial}"/>
+                            <Run Text="{Binding TitleMaterial}"/> 
                             <LineBreak/>
                         </TextBlock>
+                        </StackPanel>
 
-                        <StackPanel Grid.Column="2">
-                            <TextBlock FontSize="20" FontFamily="Courier New">
+                            <TextBlock Margin="100 0 0 0" FontSize="20" FontFamily="Courier New">
                             <Run Text="{Binding CostMaterial}"/>
                             </TextBlock>
-                        </StackPanel>
+                     
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

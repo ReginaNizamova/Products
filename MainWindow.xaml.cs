@@ -66,6 +66,7 @@ namespace Products
 
         List<Product> listProducts = new List<Product>();
         List<Product> listProductsTwenty = new List<Product>();
+        List<Product> listMaterials= new List<Product>();
         int pageIndex = -1;
         int pageSize = 20;
         readonly ProductEntities dataContext = new ProductEntities();
@@ -76,19 +77,7 @@ namespace Products
 
         private void listView_Loaded(object sender, RoutedEventArgs e)
         {
-           
-            //var resultQuery = from p in dataContext.ProductMaterial
-            //                  group p by p.Product.Title into g
-            //                  select new
-            //                  {
-                                 
-            //                      article = from p in g select p.Product.ArticleNumber,
-            //                      name = g.Key,
-            //                      material = from p in g select p.Material.Title,
-            //                      cost = from p in g select p.Material.Cost,
-            //                      productType = from p in g select p.Product.ProductType.Title,
-            //                  };            
-            
+
             var resultQuery = from p in dataContext.ProductMaterial
                               select new
                               {
@@ -98,7 +87,9 @@ namespace Products
                                   material = p.Material.Title,
                                   cost = p.Material.Cost,
                                   productType = p.Product.ProductType.Title,
-                                  image = p.Product.Image
+                                  image = p.Product.Image,
+                                  productionWorkshopNumber = p.Product.ProductionWorkshopNumber,
+                                  minCostForAgent = p.Product.MinCostForAgent
 
                               };
 
@@ -106,16 +97,23 @@ namespace Products
             foreach (var item in resultQuery)
             {
                 listProducts.Add(new Product()
-                { 
+                {
                     Title = item.name,
                     ProductTypeTitle = item.productType,
                     ArticleNumber = item.article,
                     CostMaterial = item.cost,
-                    TitleMaterial = item.material  
+                    TitleMaterial = item.material,
+                    ProductionWorkshopNumber = item.productionWorkshopNumber,
+                    MinCostForAgent = item.minCostForAgent
                 });
             }
 
-         
+
+
+            pageIndex++;
+            listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+            listProductsTwenty.GroupBy(p=> p.Title);
+            listView.ItemsSource = listProductsTwenty;
         }
 
         private void forwardButton_Click(object sender, RoutedEventArgs e)
@@ -124,6 +122,8 @@ namespace Products
             pageIndex++;
             listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
             listView.ItemsSource = listProductsTwenty;
+            
+
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
@@ -132,6 +132,89 @@ namespace Products
             pageIndex--;
             listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
             listView.ItemsSource = listProductsTwenty;
+        }
+
+        private void comboBoxSort(object sender, SelectionChangedEventArgs e) //Сортировка 
+        {
+            ComboBoxItem comboBox = (ComboBoxItem)sort.SelectedItem;
+
+            string valueComboBoxSort = comboBox.Content.ToString();
+
+
+            switch (valueComboBoxSort)
+            {
+                case "↑ Наименование":
+                    {
+                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        listView.ItemsSource = listProductsTwenty;
+                       
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        view.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+                        
+
+                        break;
+                    }
+
+                case "↓ Наименование":
+                    {
+                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        listView.ItemsSource = listProductsTwenty;
+                     
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        view.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Descending));
+                        
+                        break;
+                    }
+
+                case "↑ Номер производственного цеха":
+                    {
+                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        listView.ItemsSource = listProductsTwenty;
+
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        view.SortDescriptions.Add(new SortDescription("ProductionWorkshopNumber", ListSortDirection.Ascending));
+
+
+                        break;
+                    }
+
+                case "↓ Номер производственного цеха":
+                    {
+                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        listView.ItemsSource = listProductsTwenty;
+
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        view.SortDescriptions.Add(new SortDescription("ProductionWorkshopNumber", ListSortDirection.Descending));
+
+
+                        break;
+                    }
+
+                case "↑ Минимальная стоимость для агента":
+                    {
+                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        listView.ItemsSource = listProductsTwenty;
+
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        view.SortDescriptions.Add(new SortDescription("MinCostForAgent", ListSortDirection.Ascending));
+
+
+                        break;
+                    }
+
+                case "↓ Минимальная стоимость для агента":
+                    {
+                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                        listView.ItemsSource = listProductsTwenty;
+
+                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        view.SortDescriptions.Add(new SortDescription("MinCostForAgent", ListSortDirection.Descending));
+
+
+                        break;
+                    }
+            }
+
         }
     }
 }
