@@ -39,7 +39,7 @@
         <Viewbox MaxHeight="60" MinHeight="30" Stretch="Uniform" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <StackPanel Orientation="Horizontal" Height="40">
                 <Canvas Margin="0 0 270 0">
-                    <TextBox x:Name="search" TextChanged="txtFilterTextChanged"  Style="{StaticResource TextBox}" BorderThickness="2"  Margin="5" Width="300" Height="35"/>
+                    <TextBox x:Name="search" TextChanged="FilterTextChanged"  Style="{StaticResource TextBox}" BorderThickness="2"  Margin="5" Width="300" Height="35"/>
                     <TextBlock FontFamily="Courier New" IsHitTestVisible="False" Text="Введите для поиска" Margin="12" FontSize ="23" Foreground="DarkGray">
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}" >
@@ -59,7 +59,7 @@
         <Viewbox MaxHeight="60" MinHeight="30" Stretch="Uniform" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <StackPanel Orientation="Horizontal" Height="45">
                 <Canvas Margin="0 0 150 0">
-                    <ComboBox  SelectionChanged="comboBoxSort" BorderThickness="2"  x:Name="sort" Style="{StaticResource ComboBox}" Width="190" Height="40" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <ComboBox  SelectionChanged="ComboBoxSort" BorderThickness="2"  x:Name="sort" Style="{StaticResource ComboBox}" Width="190" Height="40" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <ComboBoxItem Content="Не сортировать" FontSize="18"/>
                         <ComboBoxItem Content="↑ Наименование" FontSize="18"/>
                         <ComboBoxItem Content="↓ Наименование" FontSize="18"/>
@@ -87,7 +87,7 @@
         <Viewbox MaxHeight="60" MinHeight="30" Stretch="Uniform" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <StackPanel Orientation="Horizontal" Height="45">
                 <Canvas Margin="0 0 170 0">
-                    <ComboBox SelectionChanged="comboBoxfilter"  BorderThickness="2" x:Name="filter" Margin="5" Style="{StaticResource ComboBox}" MinWidth="200" MinHeight="40">
+                    <ComboBox SelectionChanged="ComboBoxfilter"  BorderThickness="2" x:Name="filter" Margin="5" Style="{StaticResource ComboBox}" MinWidth="200" MinHeight="40">
                         <ComboBoxItem Content="Все типы"/>
                         <ComboBoxItem Content="Колесо"/>
                         <ComboBoxItem Content="Диск"/>
@@ -110,21 +110,25 @@
         </Viewbox>
 
         <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" >
-            <Button x:Name="backButton" BorderThickness="0" Width="25" Content="←" Margin="0 0 70 0" FontSize="20" Background="Transparent" Click="backButton_Click"/>
-            <Button x:Name="forwardButton" BorderThickness="0" Width="25" Content="→" Background="Transparent" FontSize="20" Click="forwardButton_Click"/>
+            <Button x:Name="backButton" BorderThickness="0" Width="25" Content="←" Margin="0 0 70 0" FontSize="20" Background="Transparent" Click="BackButton_Click"/>
+            <Button x:Name="forwardButton" BorderThickness="0" Width="25" Content="→" Background="Transparent" FontSize="20" Click="ForwardButton_Click"/>
         </StackPanel>
 
 
-        <ListView  Loaded="listView_Loaded" x:Name="listView" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" Margin="25">
+        <Image Grid.ColumnSpan="3" Grid.RowSpan="3" x:Name="qq">
+            
+        </Image>
+        
+        <!--<ListView  Loaded="ListView_Loaded" x:Name="listView" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" Margin="25">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel  Orientation="Horizontal">
-                        <Image  Margin="0 0 15 0" Source="pack://application:,,,/Resource/picture.png" Width="60" Height="60"/>
-                        <!--<Image Source="{Binding ImageProduct}"/>-->
+                        <Image x:Name="imageProduct" Margin="0 0 15 0" Source="pack://application:,,,/Resource/picture.png" Width="60" Height="60"/>
+                        <Image Source="{Binding q}"/>
 
                         <StackPanel Width="400">
                                  <TextBlock FontSize="20" FontFamily="Courier New">
-                                      <Run Text="{Binding ImageByte}"/> 
+                                      <Run Text="{Binding byteArray}"/> 
                                     <Run Text="{Binding Title}"/>
                                     <Run Text="|"/>
                                     <Run Text="{Binding ProductTypeTitle}"/>
@@ -145,6 +149,6 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView>-->
     </Grid>
 </Window>

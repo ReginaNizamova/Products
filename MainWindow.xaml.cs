@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Drawing;
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace Products
 {
@@ -55,6 +57,17 @@ namespace Products
                 OnPropertyChanged("CostMaterial");
             }
         }
+
+        private byte byteImage;
+        public byte ByteImage
+        {
+            get { return byteImage; }
+            set
+            {
+                byteImage = value;
+                OnPropertyChanged("ByteImage");
+            }
+        }
         //public int ProductID { get; set; }
         //public int MaterialID { get; set; }
         //public int idProduct { get; set; }
@@ -67,13 +80,19 @@ namespace Products
         List<Product> listProducts = new List<Product>();
         List<Product> listProductsTwenty = new List<Product>();
         int pageIndex = -1;
-        int pageSize = 20;
+        readonly int pageSize = 20;
         int numberPage = 1;
 
         readonly ProductEntities dataContext = new ProductEntities();
         public MainWindow()
         {
-            InitializeComponent();          
+            InitializeComponent();
+            string filePath = @"C:\Users\User\Desktop\Product\Resource\products\tire_0.jpg";
+            var image = GetImage(filePath);
+            var byteArray = ByteArray(image);
+            var q = ToBitmapSource(byteArray);
+            qq.Source =  q;
+
         }
 
         private int CountProduct () //количество продуктов
@@ -83,23 +102,30 @@ namespace Products
 
           return  countPage.Count();
         }
-        private void listView_Loaded(object sender, RoutedEventArgs e)
+        private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            var resultQuery = from p in dataContext.ProductMaterial
-                              select new
-                              {
-                                  id = p.ProductID,
-                                  article = p.Product.ArticleNumber,
-                                  name = p.Product.Title,
-                                  material = p.Material.Title,
-                                  cost = p.Material.Cost,
-                                  productType = p.Product.ProductType.Title,
-                                  image = p.Product.Image,
-                                  productionWorkshopNumber = p.Product.ProductionWorkshopNumber,
-                                  minCostForAgent = p.Product.MinCostForAgent
+            string filePath = @"C:\Users\User\Desktop\Product\Resource\products\tire_0.jpg";
+            var image = GetImage(filePath);
+            var byteArray = ByteArray(image);
+            var q = ToBitmapSource(byteArray);
+            qq.Source = q;
 
-                              };
+
+            var resultQuery = from p in dataContext.ProductMaterial
+                        select new
+                        {
+                            id = p.ProductID,
+                            article = p.Product.ArticleNumber,
+                            name = p.Product.Title,
+                            material = p.Material.Title,
+                            cost = p.Material.Cost,
+                            productType = p.Product.ProductType.Title,
+                            image = p.Product.Image,
+                            productionWorkshopNumber = p.Product.ProductionWorkshopNumber,
+                            minCostForAgent = p.Product.MinCostForAgent,
+                            
+
+                        };
 
 
             foreach (var item in resultQuery)
@@ -112,19 +138,55 @@ namespace Products
                     CostMaterial = item.cost,
                     TitleMaterial = item.material,
                     ProductionWorkshopNumber = item.productionWorkshopNumber,
-                    MinCostForAgent = item.minCostForAgent
+                    MinCostForAgent = item.minCostForAgent,
+
                 });
             }
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
             pageIndex++;
             listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-            listView.ItemsSource = listProductsTwenty;
-            
-
+            //listView.ItemsSource = listProductsTwenty;
         }
 
-        private void forwardButton_Click(object sender, RoutedEventArgs e) //след. страница
+
+        public static BitmapSource GetImage (string filePath)
+        {
+            using (var file = ShellFile.FromFilePath (filePath))
+            {
+                file.Thumbnail.FormatOption = ShellThumbnailFormatOption.IconOnly;
+                return file.Thumbnail.SmallBitmapSource;
+            }
+        }
+
+        public static byte [] ByteArray (BitmapSource bitmapSource)
+        {
+            using (var memory = new MemoryStream())
+            {
+                var encoder = new BmpBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                encoder.Save(memory);
+                return memory.GetBuffer();
+            }
+        }
+
+        public static BitmapSource ToBitmapSource (byte [] byteArray)
+        {
+            using (var memory = new MemoryStream (byteArray))
+            {
+                var image = new BitmapImage();
+                memory.Seek(0, SeekOrigin.Begin);
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.StreamSource = memory;
+                image.EndInit();
+                image.Freeze();
+                return image;
+            }
+        }
+
+        private void ForwardButton_Click(object sender, RoutedEventArgs e) //след. страница
         {
             int countPage = CountProduct();
 
@@ -138,15 +200,15 @@ namespace Products
                 numberPage++;
                 pageIndex++;
                 listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                listView.ItemsSource = listProductsTwenty;
+                //listView.ItemsSource = listProductsTwenty;
 
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                view.Filter = ProductSeach;
+                //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                //view.Filter = ProductSeach;
             }
            
         }
 
-        private void backButton_Click(object sender, RoutedEventArgs e) // пред. страница
+        private void BackButton_Click(object sender, RoutedEventArgs e) // пред. страница
         {
             int countPage = CountProduct();
 
@@ -160,14 +222,14 @@ namespace Products
             numberPage--;
             pageIndex--;
             listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-            listView.ItemsSource = listProductsTwenty;
+            //listView.ItemsSource = listProductsTwenty;
 
 
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-            view.Filter = ProductSeach;
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            //view.Filter = ProductSeach;
         }
 
-        private void comboBoxSort(object sender, SelectionChangedEventArgs e) //Сортировка 
+        private void ComboBoxSort(object sender, SelectionChangedEventArgs e) //Сортировка 
         {
             ComboBoxItem comboBox = (ComboBoxItem)sort.SelectedItem;
 
@@ -180,10 +242,10 @@ namespace Products
                     {
 
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //listView.ItemsSource = listProductsTwenty;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
 
-                        view.Filter = ProductSeach;
+                        //view.Filter = ProductSeach;
 
                         break;
                     }
@@ -193,11 +255,11 @@ namespace Products
                     {
                 
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
+                        //listView.ItemsSource = listProductsTwenty;
                        
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                        view.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
-                        view.Filter = ProductSeach;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //view.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+                        //view.Filter = ProductSeach;
 
                         break;
                     }
@@ -206,22 +268,22 @@ namespace Products
                     {
                        
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
+                        //listView.ItemsSource = listProductsTwenty;
                      
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                        view.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Descending));
-                        view.Filter = ProductSeach;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //view.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Descending));
+                        //view.Filter = ProductSeach;
                         break;
                     }
 
                 case "↑ Номер производственного цеха":
                     {
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
+                        //listView.ItemsSource = listProductsTwenty;
 
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                        view.SortDescriptions.Add(new SortDescription("ProductionWorkshopNumber", ListSortDirection.Ascending));
-                        view.Filter = ProductSeach;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //view.SortDescriptions.Add(new SortDescription("ProductionWorkshopNumber", ListSortDirection.Ascending));
+                        //view.Filter = ProductSeach;
 
                         break;
                     }
@@ -229,11 +291,11 @@ namespace Products
                 case "↓ Номер производственного цеха":
                     {
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
+                        //listView.ItemsSource = listProductsTwenty;
 
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                        view.SortDescriptions.Add(new SortDescription("ProductionWorkshopNumber", ListSortDirection.Descending));
-                        view.Filter = ProductSeach;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //view.SortDescriptions.Add(new SortDescription("ProductionWorkshopNumber", ListSortDirection.Descending));
+                        //view.Filter = ProductSeach;
 
                         break;
                     }
@@ -241,11 +303,11 @@ namespace Products
                 case "↑ Минимальная стоимость для агента":
                     {
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
+                        //listView.ItemsSource = listProductsTwenty;
 
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                        view.SortDescriptions.Add(new SortDescription("MinCostForAgent", ListSortDirection.Ascending));
-                        view.Filter = ProductSeach;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //view.SortDescriptions.Add(new SortDescription("MinCostForAgent", ListSortDirection.Ascending));
+                        //view.Filter = ProductSeach;
 
                         break;
                     }
@@ -253,11 +315,11 @@ namespace Products
                 case "↓ Минимальная стоимость для агента":
                     {
                         listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
+                        //listView.ItemsSource = listProductsTwenty;
 
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                        view.SortDescriptions.Add(new SortDescription("MinCostForAgent", ListSortDirection.Descending));
-                        view.Filter = ProductSeach;
+                        //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+                        //view.SortDescriptions.Add(new SortDescription("MinCostForAgent", ListSortDirection.Descending));
+                        //view.Filter = ProductSeach;
 
                         break;
                     }
@@ -274,94 +336,34 @@ namespace Products
 
         }
 
-        private bool ProductFilter(object item) //Фильтр
+        private void FilterTextChanged(object sender, TextChangedEventArgs e) // обновляет listView при изменении TextBox
         {
-            if (String.IsNullOrEmpty(filter.Text))
-                return true;
-            else
-                return ((item as Product).TitleMaterial.IndexOf(filter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-        }
 
-        private void txtFilterTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) // обновляет listView при изменении TextBox
-        {
-           
-            CollectionViewSource.GetDefaultView(listView.ItemsSource).Refresh();
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
+            //view.Filter = ProductSeach;
+            //CollectionViewSource.GetDefaultView(listView.ItemsSource).Refresh();
     
         }
 
-        private void ShowOnlyBargainsFilter(object sender, FilterEventArgs e)
+        private void ComboBoxfilter(object sender, SelectionChangedEventArgs e) // ComboBox фильтра
         {
-            ListViewItem product = e.Item as ListViewItem;
-            if (product != null)
-            {
-                if (product.Content.ToString() == "Колесо")
-                {
-                    e.Accepted = true;
-                }
-                else
-                {
-                    e.Accepted = false;
-                }
-            }
-        }
-        private void comboBoxfilter(object sender, SelectionChangedEventArgs e) // ComboBox фильтра
-        {
-
+            
+            ProductEntities dataContext = new ProductEntities();
             ComboBoxItem comboBox = (ComboBoxItem)filter.SelectedItem;
+            ComboBoxItem selectedItem = new ComboBoxItem();
 
-            string valueComboBoxFilter = comboBox.Content.ToString();
+            //if (Convert.ToString(selectedItem.Content) == "Все типы")
+            //{
+            //    listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+            //    listView.ItemsSource = listProductsTwenty;
+            //}
 
-
-            switch (valueComboBoxFilter)
-            {
-                case "Все типы":
-                    {                      
-                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
-                    
-                        break;
-                    }
-
-                case "Колесо":
-                    {
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-
-                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
-                        view.Filter += new FilterEventHandler(ShowOnlyBargainsFilter);
-
-                        break;
-                    }
-
-                case "Диск":
-                    {
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-
-                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty; 
-                        view.Filter += new FilterEventHandler(ShowOnlyBargainsFilter);
-                 
-
-                        break;
-                    }
-
-                case "Запаска":
-                    {
-                        CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listView.ItemsSource);
-                   
-                        listProductsTwenty = listProducts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-                        listView.ItemsSource = listProductsTwenty;
-                        view.Filter += new FilterEventHandler(ShowOnlyBargainsFilter);
-
-                        break;
-                    }
-
-            }
-
-
+            //else
+            //{
+            //    listProductsTwenty = listProducts.Where(p => p.ProductType.Title == Convert.ToString(selectedItem.Content)).ToList();
+            //    listView.ItemsSource = listProductsTwenty;
+            //}
         }
 
-
-       
     }
 }

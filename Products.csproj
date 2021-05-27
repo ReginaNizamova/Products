@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,10 +38,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\WindowsAPICodePack-Shell.1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -164,6 +169,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resource\products\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -179,21 +185,76 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resource\products\tire_0.jpg" />
+    <Resource Include="Resource\products\tire_1.jpg" />
+    <Resource Include="Resource\products\tire_10.jpg" />
+    <Resource Include="Resource\products\tire_11.jpg" />
+    <Resource Include="Resource\products\tire_12.jpg" />
+    <Resource Include="Resource\products\tire_13.jpg" />
+    <Resource Include="Resource\products\tire_14.jpg" />
+    <Resource Include="Resource\products\tire_15.jpg" />
+    <Resource Include="Resource\products\tire_16.jpg" />
+    <Resource Include="Resource\products\tire_17.jpg" />
+    <Resource Include="Resource\products\tire_18.jpg" />
+    <Resource Include="Resource\products\tire_19.jpg" />
+    <Resource Include="Resource\products\tire_2.jpg" />
+    <Resource Include="Resource\products\tire_20.jpg" />
+    <Resource Include="Resource\products\tire_21.jpg" />
+    <Resource Include="Resource\products\tire_22.jpg" />
+    <Resource Include="Resource\products\tire_23.jpg" />
+    <Resource Include="Resource\products\tire_24.jpg" />
+    <Resource Include="Resource\products\tire_25.jpg" />
+    <Resource Include="Resource\products\tire_26.jpg" />
+    <Resource Include="Resource\products\tire_27.jpg" />
+    <Resource Include="Resource\products\tire_28.jpg" />
+    <Resource Include="Resource\products\tire_29.jpg" />
+    <Resource Include="Resource\products\tire_3.jpg" />
+    <Resource Include="Resource\products\tire_30.jpg" />
+    <Resource Include="Resource\products\tire_31.jpg" />
+    <Resource Include="Resource\products\tire_32.jpg" />
+    <Resource Include="Resource\products\tire_33.jpg" />
+    <Resource Include="Resource\products\tire_34.jpg" />
+    <Resource Include="Resource\products\tire_35.jpg" />
+    <Resource Include="Resource\products\tire_36.jpg" />
+    <Resource Include="Resource\products\tire_37.jpg" />
+    <Resource Include="Resource\products\tire_38.jpg" />
+    <Resource Include="Resource\products\tire_39.jpg" />
+    <Resource Include="Resource\products\tire_4.jpg" />
+    <Resource Include="Resource\products\tire_40.jpg" />
+    <Resource Include="Resource\products\tire_41.jpg" />
+    <Resource Include="Resource\products\tire_42.jpg" />
+    <Resource Include="Resource\products\tire_43.jpg" />
+    <Resource Include="Resource\products\tire_44.jpg" />
+    <Resource Include="Resource\products\tire_45.jpg" />
+    <Resource Include="Resource\products\tire_46.jpg" />
+    <Resource Include="Resource\products\tire_47.jpg" />
+    <Resource Include="Resource\products\tire_48.jpg" />
+    <Resource Include="Resource\products\tire_49.jpg" />
+    <Resource Include="Resource\products\tire_5.jpg" />
+    <Resource Include="Resource\products\tire_50.jpg" />
+    <Resource Include="Resource\products\tire_51.jpg" />
+    <Resource Include="Resource\products\tire_52.jpg" />
+    <Resource Include="Resource\products\tire_53.jpg" />
+    <Resource Include="Resource\products\tire_54.jpg" />
+    <Resource Include="Resource\products\tire_55.jpg" />
+    <Resource Include="Resource\products\tire_56.jpg" />
+    <Resource Include="Resource\products\tire_57.jpg" />
+    <Resource Include="Resource\products\tire_58.jpg" />
+    <Resource Include="Resource\products\tire_59.jpg" />
+    <Resource Include="Resource\products\tire_6.jpg" />
+    <Resource Include="Resource\products\tire_60.jpg" />
+    <Resource Include="Resource\products\tire_61.jpg" />
+    <Resource Include="Resource\products\tire_62.jpg" />
+    <Resource Include="Resource\products\tire_63.jpg" />
+    <Resource Include="Resource\products\tire_64.jpg" />
+    <Resource Include="Resource\products\tire_7.jpg" />
+    <Resource Include="Resource\products\tire_8.jpg" />
+    <Resource Include="Resource\products\tire_9.jpg" />
     <Resource Include="Resource\picture.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resource\products\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-  </Target>
-  <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>
