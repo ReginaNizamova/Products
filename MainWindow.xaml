@@ -60,6 +60,7 @@
             <StackPanel Orientation="Horizontal" Height="45">
                 <Canvas Margin="0 0 150 0">
                     <ComboBox  SelectionChanged="comboBoxSort" BorderThickness="2"  x:Name="sort" Style="{StaticResource ComboBox}" Width="190" Height="40" Margin="5" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <ComboBoxItem Content="Не сортировать" FontSize="18"/>
                         <ComboBoxItem Content="↑ Наименование" FontSize="18"/>
                         <ComboBoxItem Content="↓ Наименование" FontSize="18"/>
                         <ComboBoxItem Content="↑ Номер производственного цеха" FontSize="18"/>
@@ -86,7 +87,7 @@
         <Viewbox MaxHeight="60" MinHeight="30" Stretch="Uniform" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <StackPanel Orientation="Horizontal" Height="45">
                 <Canvas Margin="0 0 170 0">
-                    <ComboBox SelectionChanged="comboBoxfilter" BorderThickness="2" x:Name="filter" Margin="5" Style="{StaticResource ComboBox}" MinWidth="200" MinHeight="40">
+                    <ComboBox SelectionChanged="comboBoxfilter"  BorderThickness="2" x:Name="filter" Margin="5" Style="{StaticResource ComboBox}" MinWidth="200" MinHeight="40">
                         <ComboBoxItem Content="Все типы"/>
                         <ComboBoxItem Content="Колесо"/>
                         <ComboBoxItem Content="Диск"/>
@@ -119,20 +120,22 @@
                 <DataTemplate>
                     <StackPanel  Orientation="Horizontal">
                         <Image  Margin="0 0 15 0" Source="pack://application:,,,/Resource/picture.png" Width="60" Height="60"/>
-                        <!--<Image Source="{Binding Image}"/>-->
+                        <!--<Image Source="{Binding ImageProduct}"/>-->
 
                         <StackPanel Width="400">
                                  <TextBlock FontSize="20" FontFamily="Courier New">
-                            <Run Text="{Binding Title}"/>
-                            <Run Text="|"/>
-                            <Run Text="{Binding ProductTypeTitle}"/>
-                            <LineBreak/>
-                            <Run Text="{Binding ArticleNumber}"/>
-                            <LineBreak/>
-                            <Run Text="Материалы:"/>
-                            <Run Text="{Binding TitleMaterial}"/> 
-                            <LineBreak/>
-                        </TextBlock>
+                                      <Run Text="{Binding ImageByte}"/> 
+                                    <Run Text="{Binding Title}"/>
+                                    <Run Text="|"/>
+                                    <Run Text="{Binding ProductTypeTitle}"/>
+                                    <LineBreak/>
+                                    <Run Text="{Binding ArticleNumber}"/>
+                                    <LineBreak/>
+                                    <Run Text="Материалы:"/>
+                                    <Run Text="{Binding TitleMaterial}"/> 
+                           
+                                    <LineBreak/>    
+                                 </TextBlock>
                         </StackPanel>
 
                             <TextBlock Margin="100 0 0 0" FontSize="20" FontFamily="Courier New">
