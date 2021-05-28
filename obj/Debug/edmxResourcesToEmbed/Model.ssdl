@@ -39,10 +39,10 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="CountInPack" Type="int" Nullable="false" />
-    <Property Name="Unit" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="CountInPack" Type="int" />
+    <Property Name="Unit" Type="nvarchar" MaxLength="10" />
     <Property Name="CountInStock" Type="float" />
-    <Property Name="MinCount" Type="float" Nullable="false" />
+    <Property Name="MinCount" Type="float" />
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Cost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
     <Property Name="Image" Type="nvarchar" MaxLength="100" />
@@ -78,14 +78,15 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="100" />
     <Property Name="ProductTypeID" Type="int" />
-    <Property Name="ArticleNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="ArticleNumber" Type="nvarchar" MaxLength="10" />
     <Property Name="Description" Type="nvarchar(max)" />
     <Property Name="Image" Type="nvarchar" MaxLength="100" />
     <Property Name="ProductionPersonCount" Type="int" />
     <Property Name="ProductionWorkshopNumber" Type="int" />
-    <Property Name="MinCostForAgent" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="MinCostForAgent" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="ImageByte" Type="binary" MaxLength="7000" />
   </EntityType>
   <EntityType Name="ProductCostHistory">
     <Key>
@@ -227,18 +228,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProductCostHistory_Product">
-    <End Role="Product" Type="Self.Product" Multiplicity="1" />
-    <End Role="ProductCostHistory" Type="Self.ProductCostHistory" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="ProductCostHistory">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ProductMaterial_Material">
     <End Role="Material" Type="Self.Material" Multiplicity="1" />
     <End Role="ProductMaterial" Type="Self.ProductMaterial" Multiplicity="*" />
@@ -272,18 +261,6 @@
       </Principal>
       <Dependent Role="ProductSale">
         <PropertyRef Name="AgentID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProductSale_Product">
-    <End Role="Product" Type="Self.Product" Multiplicity="1" />
-    <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="ProductSale">
-        <PropertyRef Name="ProductID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -342,10 +319,6 @@
       <End Role="ProductType" EntitySet="ProductType" />
       <End Role="Product" EntitySet="Product" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProductCostHistory_Product" Association="Self.FK_ProductCostHistory_Product">
-      <End Role="Product" EntitySet="Product" />
-      <End Role="ProductCostHistory" EntitySet="ProductCostHistory" />
-    </AssociationSet>
     <AssociationSet Name="FK_ProductMaterial_Material" Association="Self.FK_ProductMaterial_Material">
       <End Role="Material" EntitySet="Material" />
       <End Role="ProductMaterial" EntitySet="ProductMaterial" />
@@ -356,10 +329,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_ProductSale_Agent" Association="Self.FK_ProductSale_Agent">
       <End Role="Agent" EntitySet="Agent" />
-      <End Role="ProductSale" EntitySet="ProductSale" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProductSale_Product" Association="Self.FK_ProductSale_Product">
-      <End Role="Product" EntitySet="Product" />
       <End Role="ProductSale" EntitySet="ProductSale" />
     </AssociationSet>
     <AssociationSet Name="FK_Shop_Agent" Association="Self.FK_Shop_Agent">
