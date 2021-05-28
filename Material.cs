@@ -24,10 +24,10 @@ namespace Products
     
         public int ID { get; set; }
         public string Title { get; set; }
-        public int CountInPack { get; set; }
+        public Nullable<int> CountInPack { get; set; }
         public string Unit { get; set; }
         public Nullable<double> CountInStock { get; set; }
-        public double MinCount { get; set; }
+        public Nullable<double> MinCount { get; set; }
         public string Description { get; set; }
         public decimal Cost { get; set; }
         public string Image { get; set; }

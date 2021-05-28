@@ -24,7 +24,6 @@ namespace Products
             this.ProductSale = new HashSet<ProductSale>();
         }
 
-
         private int id;
         public int ID
         {
@@ -59,21 +58,10 @@ namespace Products
             }
         }
         public string Description { get; set; }
-
-        private string image;
-        public string Image
-        {
-            get { return image; }
-            set
-            {
-                image = value;
-                OnPropertyChanged("Image");
-            }
-        }
-
+        public string Image { get; set; }
         public Nullable<int> ProductionPersonCount { get; set; }
 
-        public int productionWorkshopNumber;
+        private int productionWorkshopNumber;
         public int ProductionWorkshopNumber
         {
             get { return productionWorkshopNumber; }
@@ -84,8 +72,7 @@ namespace Products
             }
         }
 
-        public decimal minCostForAgent;
-      
+        private decimal minCostForAgent;
         public decimal MinCostForAgent
         {
             get { return minCostForAgent; }
@@ -95,7 +82,18 @@ namespace Products
                 OnPropertyChanged("MinCostForAgent");
             }
         }
-    
+
+        private byte[] imageByte;
+        public byte[] ImageByte
+        {
+            get { return imageByte; }
+            set
+            {
+                imageByte = value;
+                OnPropertyChanged("ImageByte");
+            }
+        }
+
         public virtual ProductType ProductType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductCostHistory> ProductCostHistory { get; set; }
@@ -105,12 +103,10 @@ namespace Products
         public virtual ICollection<ProductSale> ProductSale { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
-
-
 }
